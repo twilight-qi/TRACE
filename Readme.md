@@ -19,6 +19,7 @@ We conduct experiments on four public datasets (Foursquare-NYC, Foursquare-TKY, 
 Foursquare：You can download the raw dataset from https://sites.google.com/site/yangdingqi/home/foursquare-dataset. If you want to know how to preprocess the data, please refer to scripts/check_ins_data_basic_preprocess.py
 
 Gowalla：You can download the raw dataset from https://snap.stanford.edu/data/loc-Gowalla.html. If you want to know how to preprocess the data, please refer to .scripts/check_ins_data_basic_preprocess.py
+
 3. Run
 You can train the model after preprocessing the dataset.
 ```
