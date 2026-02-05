@@ -1,0 +1,74 @@
+# @package _global_
+defaults:
+  - override /paths: checkins
+  - override /data: c
+  - override /model: c
+  - override /trainer: gpu
+  - override /logger: wandb
+  - override /callbacks: trace
+  - override /builder: trace
+
+optimized_metric: validation/acc_best
+
+data:
+  batch_size: 256
+  file_loader:
+    _target_: src.data.components.c_preprocessing.FileLoader
+    name: ${_dataset}
+    state: ${_city}
+    preprocessor:
+      filter_invalid_speed: true
+    algorithm_preprocessor:
+      iterative_filter_sparse_poi_user: true
+      max_trajectory_length: 300
+      use_history: ${model.net.use_history}
+  num_workers: 0
+trainer:
+  max_epochs: 50
+  gradient_clip_val: 5.0
+  # precision: 'bf16-mixed'
+  deterministic: true
+  # limit_train_batches: 3 # DeBug
+  # limit_val_batches: 3 # DeBug
+  detect_anomaly: true
+model:
+  scheduler:
+    t_initial: 10
+    cycle_mul: 2.0
+    cycle_limit: 3
+  optimizer:
+    lr: 0.001
+  net:
+    embed_dim: 256
+    hidden_dim: 256
+    num_heads: 4
+    transformer_num_layers: 4
+    dropout: 0.1
+    use_history: false
+    use_adaln: false
+  label_smoothing: 0.1
+  time_label_smoothing: 0.1
+
+
+seed: 3407
+
+logger:
+  wandb:
+    save_dir: "${paths.root_dir}"
+    save_code: true
+    # offline: true
+
+tags: ["${_dataset}", "${_city}", "${_algorithm}"]
+
+task_name: "${_algorithm}.${_dataset}.${_city}"
+hydra:
+  run:
+    dir: ${paths.log_dir}/${task_name}/runs/${now:%Y-%m-%d}_${now:%H-%M-%S-%f}
+  sweep:
+    dir: ${paths.log_dir}/${task_name}/multiruns/${now:%Y-%m-%d}_${now:%H-%M-%S-%f}
+    subdir: ${hydra.job.num}
+train: true
+ckpt_path: null
+_city: nyc
+_dataset: foursquare_tsmc2014
+_algorithm: c

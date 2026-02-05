@@ -1,0 +1,16 @@
+_target_: src.builders.dynamic_factory.DynamicConfigModelFactory
+_partial_: true
+
+transfer_attributes:
+  - source: num_users
+    target: model.net.num_users
+  - source: num_locations
+    target: model.net.num_locations
+  - source: num_categories
+    target: model.net.num_categories
+  - source: num_locations
+    target: model.num_locations
+  - source: num_categories
+    target: model.num_categories
+  - source: coords
+    target: model.net.coords

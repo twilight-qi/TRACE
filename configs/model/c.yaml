@@ -1,0 +1,44 @@
+_target_: src.models.c_module.CLitModule
+
+optimizer:
+  _target_: torch.optim.Adam
+  _partial_: true
+  lr: 0.001
+  weight_decay: 0.0008
+
+scheduler:
+  _target_: timm.scheduler.cosine_lr.CosineLRScheduler
+  _partial_: true
+  warmup_t: 5
+  warmup_lr_init: 0.0001
+  lr_min: 0.00001
+  t_initial: 20
+
+net:
+  _target_: src.models.components.c_net.CNet
+
+  # Define the following parameters in the data module.dependencies
+  num_users: ???
+  num_locations: ???
+  num_categories: ???
+  hidden_dim: 256
+  dropout: 0.1
+  transformer_num_layers: 6
+  use_history: false
+  use_adaln: false
+  use_cascade: false
+  use_cl: false
+  num_bins: 48
+# tau: 0.1
+# ss_decay_epochs: 20
+mask_ratio: 0.2
+num_locations: ???
+num_categories: ???
+label_smoothing: 0.1
+
+compile: false
+k_list:
+  - 1
+  - 5
+  - 10
+  - 20

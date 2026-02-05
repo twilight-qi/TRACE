@@ -1,0 +1,22 @@
+defaults:
+  - model_checkpoint
+  - early_stopping
+  - learning_rate_monitor
+  - model_summary
+  - rich_progress_bar
+  - _self_
+model_checkpoint:
+  dirpath: ${paths.output_dir}/checkpoints
+  filename: "epoch_{epoch:03d}_val_acc_{validation/acc_best:.4f}"
+  monitor: validation/acc_best
+  verbose: True
+  auto_insert_metric_name: false
+  mode: "max"
+
+early_stopping:
+  monitor: validation/acc_best
+  patience: 10
+  mode: "max"
+
+model_summary:
+  max_depth: -1

@@ -1,0 +1,27 @@
+_target_: src.data.c_datamodule.HistoryAugmentedDataModule
+batch_size: 20
+file_loader:
+  _target_: src.data.components.c_preprocessing.FileLoader
+  weights_only: false
+  name: "foursquare_tsmc2014"
+  state: "nyc" # choice from TKY NYC
+  raw_filepath: ${paths.raw_data_dir}/${data.file_loader.name}_${data.file_loader.state}.gzip
+  processed_filepath: ${paths.raw_data_dir}/processed/${data.file_loader.name}_${data.file_loader.state}
+  preprocessor:
+    _target_: src.data.components.c_preprocessing.Preprocessor
+    max_speed_kmph: 1200 # km/h
+    min_nb_checkins_per_location: 10
+    min_nb_checkins_per_user: 10
+    filter_invalid_speed: true
+  algorithm_preprocessor:
+    _target_: src.data.components.c_algorithm.HistoryAugmentedProcessor
+    use_history: true
+    max_time_gap_in_one_trajectory_hours: 24
+    split_ratio_list:
+      - 0.8
+      - 0.1
+    min_trajectory_length: 2
+    max_trajectory_length: 99999
+    iterative_filter_sparse_poi_user: true
+    sequence_length: 1000
+input_seq_len: 300
