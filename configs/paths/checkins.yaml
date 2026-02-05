@@ -1,4 +1,4 @@
 defaults:
   - default
 
-raw_data_dir: /llm/dataset/check_ins/basic_preprocessed
+raw_data_dir: ./dataset/check_ins/basic_preprocessed
