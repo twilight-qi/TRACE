@@ -24,7 +24,7 @@ You can train the model after preprocessing the dataset.
 ```
 $ cd main
 $ python scripts/check_ins_data_basic_preprocess.py
-$ python src/train.py
+$ python src/train.py experiment=trace
 ```
 Acknowledgment
 Our implementation is based on lightning-hydra-template: https://github.com/ashleve/lightning-hydra-template
