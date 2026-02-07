@@ -36,8 +36,6 @@ dependencies:
 
   - pip>=23
   - pip:
-      - --index-url=https://mirrors.xjtu.edu.cn/pypi/simple
-
       # - pydantic==2.10.0
       - hydra-optuna-sweeper
       - hydra-colorlog
